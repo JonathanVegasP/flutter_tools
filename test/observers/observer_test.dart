@@ -42,10 +42,7 @@ class Home extends StatelessWidget {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: text.headline4,
-            ),
+            Observer((_) => Text('$_counter', style: text.headline4)),
           ],
         ),
       ),

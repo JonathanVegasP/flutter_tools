@@ -5,10 +5,10 @@ import 'package:flutter_tools/flutter_tools.dart';
 void main() {
   testWidgets('Test if observer value is working', (pump) async {
     await pump.pumpWidget(TestApp());
-    expect(find.text('Counter: 0'), findsOneWidget);
+    expect(find.text('0'), findsOneWidget);
     await pump.tap(find.byType(FloatingActionButton));
     await pump.pump();
-    expect(find.text('Counter: 1'), findsOneWidget);
+    expect(find.text('1'), findsOneWidget);
   });
 }
 
