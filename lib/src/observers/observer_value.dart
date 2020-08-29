@@ -4,7 +4,11 @@ class ObserverValue<T> extends StatefulWidget {
   final T initial;
   final Widget child;
 
-  const ObserverValue({Key key, this.initial, this.child}) : super(key: key);
+  const ObserverValue({Key key, this.initial, @required this.child})
+      : assert(child != null, '''
+            A null child was provided inside this $ObserverValue widget
+            '''),
+        super(key: key);
 
   static ObserverValueState<T> of<T>(BuildContext context) {
     return context
@@ -34,11 +38,16 @@ class ObserverValueState<T> extends State<ObserverValue<T>> {
   }
 
   @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return '$_value';
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _ObserverValue<T>(
       child: widget.child,
       state: this,
-      data: _value,
+      value: _value,
     );
   }
 }
@@ -47,17 +56,17 @@ class _ObserverValue<T> extends InheritedWidget {
   const _ObserverValue({
     Key key,
     @required this.state,
-    @required this.data,
+    @required this.value,
     @required Widget child,
   })  : assert(child != null),
         super(key: key, child: child);
 
   final ObserverValueState<T> state;
 
-  final T data;
+  final T value;
 
   @override
   bool updateShouldNotify(_ObserverValue<T> old) {
-    return old.data != data;
+    return old.value != value;
   }
 }

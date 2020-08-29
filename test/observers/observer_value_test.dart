@@ -5,18 +5,18 @@ import 'package:flutter_tools/flutter_tools.dart';
 void main() {
   testWidgets('Test if observer value is working', (pump) async {
     await pump.pumpWidget(TestApp());
-    expect(find.text(''), findsOneWidget);
-    await pump.tap(find.byType(GestureDetector));
+    expect(find.text('Counter: 0'), findsOneWidget);
+    await pump.tap(find.byType(FloatingActionButton));
     await pump.pump();
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Counter: 1'), findsOneWidget);
   });
 }
 
 class TestApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ObserverValue<String>(
-      initial: '',
+    return ObserverValue<int>(
+      initial: 0,
       child: MaterialApp(
         home: Home(),
       ),
@@ -25,20 +25,36 @@ class TestApp extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
+  void _incrementCounter(ObserverValueState<int> state) {
+    state.value++;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ObserverValueState<String> value = ObserverValue.of(context);
+    final ObserverValueState<int> counter = ObserverValue.of(context);
+    final text = Theme.of(context).textTheme;
     return Scaffold(
-      body: Column(
-        children: [
-          Text(value.value),
-          GestureDetector(
-            child: Text('teste'),
-            onTap: () {
-              value.value = '1';
-            },
-          ),
-        ],
+      appBar: AppBar(
+        title: Text('Flutter Tools'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$counter',
+              style: text.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _incrementCounter(counter),
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
       ),
     );
   }
