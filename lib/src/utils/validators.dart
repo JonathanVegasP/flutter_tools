@@ -8,7 +8,7 @@ class AppValidators {
   static bool isNullOrEmpty(String input) =>
       input == null || input.trim().isEmpty;
 
-  static bool isNotNullOrNotEmpty(String input) => !isNullOrEmpty(input);
+  static bool isNotNullOrEmpty(String input) => !isNullOrEmpty(input);
 
   static bool isEmail(String email) {
     if (isNullOrEmpty(email)) {

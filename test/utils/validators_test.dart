@@ -5,10 +5,10 @@ void main() {
   test('Test if all validations is working', () {
     var object = '    ';
     expect(AppValidators.isNullOrEmpty(object), isTrue);
-    expect(AppValidators.isNotNullOrNotEmpty(object), isFalse);
+    expect(AppValidators.isNotNullOrEmpty(object), isFalse);
     object = 'a';
     expect(AppValidators.isNullOrEmpty(object), isFalse);
-    expect(AppValidators.isNotNullOrNotEmpty(object), isTrue);
+    expect(AppValidators.isNotNullOrEmpty(object), isTrue);
     expect(AppValidators.isNull(object), isFalse);
     expect(AppValidators.isNotNull(object), isTrue);
     object = null;
