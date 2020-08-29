@@ -1,9 +1,11 @@
+import 'dart:collection';
+
 import 'service.dart';
 
 part 'injection.dart';
 
 class _InjectionImpl implements Injection {
-  final _services = <Type, Service>{};
+  final Map<Type, Service> _services = HashMap();
 
   static Injection _instance;
 
