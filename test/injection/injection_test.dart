@@ -40,7 +40,7 @@ void main() {
     injection.putLazy(() => Object());
     expect(injection.isRegistered<Object>(), isTrue);
     expect(() {
-      injection.putFactory(() => Object());
+      injection.putLazy(() => Object());
     }, throwsAssertionError);
     final Object value1 = injection();
     final Object value2 = injection();
