@@ -27,6 +27,21 @@ class AppValidators {
     return input.trim().split(' ').length > 1;
   }
 
+  static bool minLength(String input, int minLength) {
+    if (isNull(input) || isNull(minLength)) {
+      return false;
+    }
+
+    return input.length >= minLength;
+  }
+
+  static bool maxLength(String input, int maxLength) {
+    if (isNull(input) || isNull(maxLength)) {
+      return false;
+    }
+    return input.length <= maxLength;
+  }
+
   static String Function(String event) fieldValidation(
       bool validation(String input),
       [String message = "Campo inválido"]) {

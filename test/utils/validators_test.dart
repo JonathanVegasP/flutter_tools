@@ -45,5 +45,11 @@ void main() {
         AppValidators.fieldValidation(AppValidators.isFullName, 'teste')(
             object),
         null);
+    object = '';
+    expect(AppValidators.maxLength(object, 10), isTrue);
+    expect(AppValidators.minLength(object, 8), isFalse);
+    object = '123456';
+    expect(AppValidators.maxLength(object, 5),isFalse);
+    expect(AppValidators.minLength(object, 6), isTrue);
   });
 }
