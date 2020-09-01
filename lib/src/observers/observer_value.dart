@@ -6,7 +6,7 @@ class ObserverValue<T> extends StatefulWidget {
 
   const ObserverValue({Key key, this.initial, @required this.child})
       : assert(child != null, '''
-            A null child was provided inside this $ObserverValue widget
+            A null child was provided inside this ObserverValue widget
             '''),
         super(key: key);
 
