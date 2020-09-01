@@ -38,6 +38,9 @@ class ObserverValueState<T> extends State<ObserverValue<T>> {
   T get value => _value;
 
   set value(T value) {
+    if (value == _value) {
+      return;
+    }
     setState(() {
       _value = value;
     });
