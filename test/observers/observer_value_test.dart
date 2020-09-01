@@ -31,7 +31,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ObserverValueState<int> counter = ObserverValue.of(context);
     final text = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
@@ -45,14 +44,14 @@ class Home extends StatelessWidget {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$counter',
+              '${context.watch<int>().value}',
               style: text.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _incrementCounter(counter),
+        onPressed: () => _incrementCounter(context.read()),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),

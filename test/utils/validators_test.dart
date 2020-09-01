@@ -6,6 +6,8 @@ void main() {
     var object = '    ';
     expect(AppValidators.isNullOrEmpty(object), isTrue);
     expect(AppValidators.isNotNullOrEmpty(object), isFalse);
+    expect(AppValidators.isNull(object), isFalse);
+    expect(AppValidators.isNotNull(object), isTrue);
     object = 'a';
     expect(AppValidators.isNullOrEmpty(object), isFalse);
     expect(AppValidators.isNotNullOrEmpty(object), isTrue);
@@ -26,7 +28,7 @@ void main() {
     expect(AppValidators.isEmail(object), isFalse);
     object = 'example@example.c';
     expect(AppValidators.isEmail(object), isFalse);
-    object = 'example@example.com.c';
+    object = 'example@example';
     expect(AppValidators.isEmail(object), isFalse);
     object = 'John Doe';
     expect(AppValidators.isFullName(object), isTrue);
@@ -45,11 +47,11 @@ void main() {
         AppValidators.fieldValidation(AppValidators.isFullName, 'teste')(
             object),
         null);
-    object = '';
+    object = '1234567890';
     expect(AppValidators.maxLength(object, 10), isTrue);
-    expect(AppValidators.minLength(object, 8), isFalse);
+    expect(AppValidators.minLength(object, 11), isFalse);
     object = '123456';
-    expect(AppValidators.maxLength(object, 5),isFalse);
+    expect(AppValidators.maxLength(object, 5), isFalse);
     expect(AppValidators.minLength(object, 6), isTrue);
   });
 }
