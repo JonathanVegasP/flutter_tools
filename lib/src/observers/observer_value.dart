@@ -10,10 +10,10 @@ class ObserverValue<T> extends StatefulWidget {
             '''),
         super(key: key);
 
-  static ObserverValueState<T> of<T>(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<_ObserverValue<T>>()
-        .state;
+  static ObserverValueState<T> of<T>(BuildContext context, [update = true]) {
+    return update
+        ? context.dependOnInheritedWidgetOfExactType<_ObserverValue<T>>().state
+        : context.getElementForInheritedWidgetOfExactType<_ObserverValue<T>>();
   }
 
   @override
@@ -69,4 +69,10 @@ class _ObserverValue<T> extends InheritedWidget {
   bool updateShouldNotify(_ObserverValue<T> old) {
     return old.value != value;
   }
+}
+
+extension ObserverValueContext on BuildContext {
+  ObserverValueState<T> read<T>() => ObserverValue.of<T>(this, false);
+
+  ObserverValueState<T> watch<T>() => ObserverValue.of<T>(this, true);
 }
