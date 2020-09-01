@@ -10,10 +10,10 @@ String _encode(dynamic input) {
   return json.encode(input);
 }
 
-Future decodeJson(String input) {
+Future decodeFromJson(String input) {
   return compute(_decode, input);
 }
 
-Future<String> encodeJson(dynamic input) {
+Future<String> encodeToJson(dynamic input) {
   return compute(_encode, input);
 }
