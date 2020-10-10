@@ -1,7 +1,8 @@
 name: flutter_tools
-description: Flutter Tools for building an optimized app
-version: 1.3.3
-homepage: https://jonathanvegas.tech
+description: Flutter Tools
+version: 0.0.1
+author:
+homepage:
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
