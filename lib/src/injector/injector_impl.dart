@@ -89,7 +89,7 @@ class _Injector implements Injector {
   @override
   void putFactory<T>(T Function() factory) {
     _isNotRegistered(T);
-    _services[T] = _ServiceFactory(
+    _services[T] = _ServiceFactory<T>(
       factory: factory,
       type: _ServiceType.factory,
     );
@@ -98,7 +98,7 @@ class _Injector implements Injector {
   @override
   void putLazy<T>(T Function() factory) {
     _isNotRegistered(T);
-    _services[T] = _ServiceFactory(
+    _services[T] = _ServiceFactory<T>(
       factory: factory,
       type: _ServiceType.lazy,
     );
@@ -118,7 +118,7 @@ class _Injector implements Injector {
     if (instance.isNull) {
       throw ArgumentError('Injector: $T was registered as $Null');
     }
-    _services[T] = _ServiceFactory(
+    _services[T] = _ServiceFactory<T>(
       instance: instance,
       type: _ServiceType.singleton,
     );
