@@ -1,7 +1,7 @@
 part of 'observable_impl.dart';
 
 abstract class Observable<T> {
-  factory Observable([T value]) = _Observable;
+  factory Observable([T value]) = _Observable<T>;
 
   T get value;
 
