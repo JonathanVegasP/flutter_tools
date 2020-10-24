@@ -1,8 +1,4 @@
-part of 'injector_impl.dart';
-
 abstract class Injector {
-  factory Injector() = _Injector;
-
   void putSingleton<T>(T factory());
 
   void putLazy<T>(T factory());

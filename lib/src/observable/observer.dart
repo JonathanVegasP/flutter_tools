@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
+part of 'observable_impl.dart';
 
-import '../observable/observable_impl.dart';
-
-class Observer extends StatefulWidget {
-  final WidgetBuilder builder;
-
-  const Observer(this.builder) : super();
+abstract class ObserverWidget extends StatefulWidget {
+  const ObserverWidget() : super();
 
   @override
   _ObserverState createState() => _ObserverState();
+
+  Widget build(BuildContext context);
 }
 
-class _ObserverState extends State<Observer> {
-  final observable = Observable();
+class _ObserverState extends State<ObserverWidget> {
+  final _Observable observable = Observable();
 
   @override
   void initState() {
@@ -30,11 +28,11 @@ class _ObserverState extends State<Observer> {
 
   @override
   Widget build(BuildContext context) {
-    getObs = observable;
-    final child = widget.builder(context);
-    getObs = null;
+    _getObs = observable;
+    final child = widget.build(context);
+    _getObs = null;
     assert(
-      observable.canUpdate(),
+      observable._canUpdate(),
       'Observable: Was not detected any Observable inside this Observer',
     );
     assert(child != null);

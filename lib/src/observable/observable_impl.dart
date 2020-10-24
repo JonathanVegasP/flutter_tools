@@ -1,8 +1,12 @@
 import 'dart:collection';
 
+import 'package:flutter/widgets.dart';
+
 import '../validators/validators.dart';
 
 part 'observable.dart';
+
+part 'observer.dart';
 
 class _Observable<T> implements Observable<T> {
   Map<Observable<T>, _Listener<T>> observers;
@@ -13,8 +17,8 @@ class _Observable<T> implements Observable<T> {
 
   @override
   T get value {
-    if (getObs.isNotNull) {
-      getObs.addListener(this);
+    if (_getObs.isNotNull) {
+      _getObs._addListener(this);
     }
     return _value;
   }
@@ -28,8 +32,7 @@ class _Observable<T> implements Observable<T> {
     });
   }
 
-  @override
-  void addListener(Observable<T> observable) {
+  void _addListener(Observable<T> observable) {
     if (observers.isNull)
       observers = HashMap();
     else if (observers.containsKey(observable)) return;
@@ -40,8 +43,7 @@ class _Observable<T> implements Observable<T> {
     observers[observable] = callback;
   }
 
-  @override
-  bool canUpdate() => observers.isNotNull;
+  bool _canUpdate() => observers.isNotNull;
 
   @override
   void dispose() {
@@ -65,7 +67,7 @@ class _Observable<T> implements Observable<T> {
 
 typedef _Listener<T> = void Function(T event);
 
-Observable getObs;
+_Observable _getObs;
 
 extension ObservableX<T> on T {
   Observable<T> get obs => Observable(this);

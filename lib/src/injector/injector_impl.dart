@@ -1,10 +1,25 @@
 import 'dart:collection';
 
 import '../validators/validators.dart';
-
-part 'injector.dart';
+import 'injector.dart';
 
 enum _ServiceType { singleton, lazy, factory }
+
+void _runOrCatch(void action(), Type T) {
+  try {
+    action();
+  } catch (e, str) {
+    print('Injector: Error while creating $T instance');
+    print(str);
+    rethrow;
+  }
+}
+
+void _validate(instance, Type T) {
+  if (instance.isNull) {
+    throw ArgumentError('Injector: $T was registered as $Null');
+  }
+}
 
 class _ServiceFactory<T> {
   T instance;
@@ -13,38 +28,20 @@ class _ServiceFactory<T> {
 
   _ServiceFactory({this.instance, this.factory, this.type});
 
-  void _validate(T instance) {
-    if (instance.isNull) {
-      throw ArgumentError('Injector: $T was registered as $Null');
-    }
-  }
-
   T call() {
     switch (type) {
       case _ServiceType.singleton:
         return instance;
       case _ServiceType.lazy:
         if (instance.isNull) {
-          try {
-            instance = factory();
-          } catch (e, str) {
-            print('Injector: Error while creating $T instance');
-            print(str);
-            rethrow;
-          }
-          _validate(instance);
+          _runOrCatch(() => instance = factory(), T);
+          _validate(instance, T);
         }
         return instance;
       case _ServiceType.factory:
         T instance;
-        try {
-          instance = factory();
-        } catch (e, str) {
-          print('Injector: Error while creating $T instance');
-          print(str);
-          rethrow;
-        }
-        _validate(instance);
+        _runOrCatch(() => instance = factory(), T);
+        _validate(instance, T);
         return instance;
       default:
         throw StateError('Impossible case');
@@ -55,11 +52,7 @@ class _ServiceFactory<T> {
 class _Injector implements Injector {
   final Map<Type, _ServiceFactory<dynamic>> _services = HashMap();
 
-  static Injector _instance;
-
   _Injector._();
-
-  factory _Injector() => _instance ??= _Injector._();
 
   void _isRegistered(Type T) {
     if (!_services.containsKey(T)) {
@@ -108,16 +101,8 @@ class _Injector implements Injector {
   void putSingleton<T>(T Function() factory) {
     _isNotRegistered(T);
     T instance;
-    try {
-      instance = factory();
-    } catch (e, str) {
-      print('Injector: Error while creating $T instance');
-      print(str);
-      rethrow;
-    }
-    if (instance.isNull) {
-      throw ArgumentError('Injector: $T was registered as $Null');
-    }
+    _runOrCatch(() => instance = factory(), T);
+    _validate(instance, T);
     _services[T] = _ServiceFactory<T>(
       instance: instance,
       type: _ServiceType.singleton,
@@ -127,3 +112,5 @@ class _Injector implements Injector {
   @override
   void unRegister<T>() => _services.remove(T);
 }
+
+final Injector serviceInjector = _Injector._();
